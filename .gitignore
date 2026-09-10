@@ -58,3 +58,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # APK files (too large for GitHub, distribute separately)
 public/*.apk
 *.apk
+
+# Firebase service account (contains secrets, do not push!)
+firebase-service-account.json
+src/config/firebase-service-account.json
