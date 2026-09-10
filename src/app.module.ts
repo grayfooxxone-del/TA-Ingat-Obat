@@ -32,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_URL,
       host: process.env.DB_HOST || process.env.PGHOST || 'localhost',
       port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
       username: process.env.DB_USERNAME || process.env.PGUSER || 'postgres',
