@@ -21,6 +21,7 @@ import { FirebaseModule } from './modules/firebase/firebase.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { TestLogModule } from './modules/test_logs/test-log.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AppController } from './app.controller';
 
 // Parse DATABASE_URL secara manual untuk Railway
 function getDbConfig() {
@@ -78,5 +79,6 @@ function getDbConfig() {
     CloudinaryModule,
     TestLogModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {} // Pastikan baris ini ada agar tidak error di main.ts
