@@ -22,6 +22,35 @@ import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { TestLogModule } from './modules/test_logs/test-log.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
+// Parse DATABASE_URL secara manual untuk Railway
+function getDbConfig() {
+  const rawUrl = process.env.DATABASE_URL;
+  console.log('[DB] DATABASE_URL defined:', !!rawUrl);
+  if (rawUrl) {
+    try {
+      const u = new URL(rawUrl);
+      console.log('[DB] Connecting to host:', u.hostname, 'port:', u.port || 5432);
+      return {
+        host: u.hostname,
+        port: parseInt(u.port || '5432', 10),
+        username: decodeURIComponent(u.username),
+        password: decodeURIComponent(u.password),
+        database: u.pathname.replace(/^\//, ''),
+      };
+    } catch (e) {
+      console.error('[DB] Failed to parse DATABASE_URL:', e.message);
+    }
+  }
+  // Fallback untuk local development
+  return {
+    host: process.env.DB_HOST || process.env.PGHOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
+    username: process.env.DB_USERNAME || process.env.PGUSER || 'postgres',
+    password: process.env.DB_PASSWORD || process.env.PGPASSWORD || 'Saif04knazz',
+    database: process.env.DB_NAME || process.env.PGDATABASE || 'Pengingat Minum Obat TA',
+  };
+}
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -32,18 +61,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      ...(process.env.DATABASE_URL
-        ? {
-            url: process.env.DATABASE_URL,
-            ssl: { rejectUnauthorized: false },
-          }
-        : {
-            host: process.env.DB_HOST || process.env.PGHOST || 'localhost',
-            port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
-            username: process.env.DB_USERNAME || process.env.PGUSER || 'postgres',
-            password: process.env.DB_PASSWORD || process.env.PGPASSWORD || 'Saif04knazz',
-            database: process.env.DB_NAME || process.env.PGDATABASE || 'Pengingat Minum Obat TA',
-          }),
+      ...getDbConfig(),
       autoLoadEntities: true,
       synchronize: true,
     }),
