@@ -1,0 +1,14 @@
+{
+  "name": "iot-connector",
+  "version": "1.0.0",
+  "description": "Layanan penghubung antara Broker MQTT (IoT ESP32) dan Database API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mqtt": "^5.0.5",
+    "pg": "^8.11.5",
+    "dotenv": "^16.4.5"
+  }
+}
