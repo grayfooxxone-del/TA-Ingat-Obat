@@ -26,16 +26,31 @@ let FirebaseService = class FirebaseService {
                 break;
             }
         }
-        if (!serviceAccountPath) {
-            console.error('CRITICAL: firebase-service-account.json not found in any path!');
+        let credentialConfig;
+        if (process.env.FIREBASE_JSON) {
+            try {
+                const serviceAccountConfig = JSON.parse(process.env.FIREBASE_JSON);
+                credentialConfig = (0, app_1.cert)(serviceAccountConfig);
+                console.log('Firebase Admin SDK initialized using FIREBASE_JSON env var.');
+            }
+            catch (err) {
+                console.error('Failed to parse FIREBASE_JSON env var:', err);
+                return;
+            }
+        }
+        else if (serviceAccountPath) {
+            credentialConfig = (0, app_1.cert)(serviceAccountPath);
+            console.log('Firebase Admin SDK initialized using file:', serviceAccountPath);
+        }
+        else {
+            console.error('CRITICAL: firebase-service-account.json not found and FIREBASE_JSON is not set!');
             return;
         }
         try {
             if ((0, app_1.getApps)().length === 0) {
                 (0, app_1.initializeApp)({
-                    credential: (0, app_1.cert)(serviceAccountPath),
+                    credential: credentialConfig,
                 });
-                console.log('Firebase Admin SDK initialized successfully using:', serviceAccountPath);
             }
         }
         catch (error) {

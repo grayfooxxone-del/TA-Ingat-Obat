@@ -11,13 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
-const app_service_1 = require("./app.service");
 let AppController = class AppController {
-    constructor(appService) {
-        this.appService = appService;
-    }
     getHello() {
-        return this.appService.getHello();
+        return `
+      <html>
+        <head>
+          <title>TA Ingat Obat API</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+            .btn { display: inline-block; padding: 15px 30px; font-size: 20px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px; }
+            .btn:hover { background-color: #0056b3; }
+          </style>
+        </head>
+        <body>
+          <h1>API TA Ingat Obat Berhasil Berjalan!</h1>
+          <p>Server Backend telah aktif dan terhubung ke Database & Firebase.</p>
+          <br/>
+          <a href="/public/update.apk" class="btn">Unduh Aplikasi (APK)</a>
+        </body>
+      </html>
+    `;
     }
 };
 exports.AppController = AppController;
@@ -28,7 +41,6 @@ __decorate([
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
 exports.AppController = AppController = __decorate([
-    (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService])
+    (0, common_1.Controller)()
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

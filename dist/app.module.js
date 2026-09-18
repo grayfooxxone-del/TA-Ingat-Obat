@@ -25,6 +25,34 @@ const firebase_module_1 = require("./modules/firebase/firebase.module");
 const cloudinary_module_1 = require("./modules/cloudinary/cloudinary.module");
 const test_log_module_1 = require("./modules/test_logs/test-log.module");
 const schedule_1 = require("@nestjs/schedule");
+const app_controller_1 = require("./app.controller");
+function getDbConfig() {
+    const rawUrl = process.env.DATABASE_URL;
+    console.log('[DB] DATABASE_URL defined:', !!rawUrl);
+    if (rawUrl) {
+        try {
+            const u = new URL(rawUrl);
+            console.log('[DB] Connecting to host:', u.hostname, 'port:', u.port || 5432);
+            return {
+                host: u.hostname,
+                port: parseInt(u.port || '5432', 10),
+                username: decodeURIComponent(u.username),
+                password: decodeURIComponent(u.password),
+                database: u.pathname.replace(/^\//, ''),
+            };
+        }
+        catch (e) {
+            console.error('[DB] Failed to parse DATABASE_URL:', e.message);
+        }
+    }
+    return {
+        host: process.env.DB_HOST || process.env.PGHOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
+        username: process.env.DB_USERNAME || process.env.PGUSER || 'postgres',
+        password: process.env.DB_PASSWORD || process.env.PGPASSWORD || 'Saif04knazz',
+        database: process.env.DB_NAME || process.env.PGDATABASE || 'Pengingat Minum Obat TA',
+    };
+}
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -39,11 +67,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
-                host: process.env.DB_HOST || 'localhost',
-                port: parseInt(process.env.DB_PORT || '5432', 10),
-                username: process.env.DB_USERNAME || 'postgres',
-                password: process.env.DB_PASSWORD || 'Saif04knazz',
-                database: process.env.DB_NAME || 'Pengingat Minum Obat TA',
+                ...getDbConfig(),
                 autoLoadEntities: true,
                 synchronize: true,
             }),
@@ -60,6 +84,7 @@ exports.AppModule = AppModule = __decorate([
             cloudinary_module_1.CloudinaryModule,
             test_log_module_1.TestLogModule,
         ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

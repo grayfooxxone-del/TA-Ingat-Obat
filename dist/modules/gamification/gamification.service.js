@@ -27,15 +27,15 @@ let GamificationService = class GamificationService {
         this.evidenceRepository = evidenceRepository;
         this.scheduleService = scheduleService;
         this.POINTS_PER_DAY = 10;
-        this.MAX_POINTS = 1800;
+        this.MAX_POINTS = 1680;
         this.BADGE_THRESHOLDS = [
             { name: 'Langkah Awal', icon: '🥉', points: 0 },
-            { name: 'Pejuang Bulan Pertama', icon: '🥉', points: 300 },
-            { name: 'Lulus Fase Intensif', icon: '🥈', points: 600 },
-            { name: 'Setengah Jalan', icon: '🥇', points: 900 },
-            { name: 'Pejuang Konsisten', icon: '💎', points: 1200 },
-            { name: 'Hampir Selesai', icon: '💎', points: 1500 },
-            { name: 'Pahlawan Sehat', icon: '👑', points: 1800 },
+            { name: 'Pejuang Bulan Pertama', icon: '🥉', points: 280 },
+            { name: 'Lulus Fase Intensif', icon: '🥈', points: 560 },
+            { name: 'Setengah Jalan', icon: '🥇', points: 840 },
+            { name: 'Pejuang Konsisten', icon: '💎', points: 1120 },
+            { name: 'Hampir Selesai', icon: '💎', points: 1400 },
+            { name: 'Pahlawan Sehat', icon: '👑', points: 1680 },
         ];
     }
     async createGamification(createGamificationDto) {

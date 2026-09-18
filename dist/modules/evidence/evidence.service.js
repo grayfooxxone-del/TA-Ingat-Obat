@@ -75,7 +75,7 @@ let EvidenceService = class EvidenceService {
                     if (pair.pmo && pair.pmo.deviceToken) {
                         const title = isLate ? 'Pasien Terlambat Minum Obat! ⚠️' : 'Perlu Verifikasi Bukti! 📷';
                         const body = isLate
-                            ? `Pasien ${patient.name} mengunggah bukti secara TERLAMBAT (lewat ${diffMins} menit) untuk jadwal jam ${timeString}.`
+                            ? `Pasien ${patient.name} mengunggah bukti secara TERLAMBAT untuk jadwal jam ${timeString}.`
                             : `Pasien ${patient.name} baru saja mengunggah bukti minum obat untuk jadwal jam ${timeString || 'yang ditentukan'}.`;
                         await this.firebaseService.sendPushNotification(pair.pmo.deviceToken, title, body, {
                             type: 'need_verification',
